@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use File::Copy; 
 use YAML qw( DumpFile );
-
+ use Text::Tabs;
 my $login = (getpwuid $>);
 die "must run as root" if ($login ne 'root');
 #die "no arguments" if ($ARGV[0] eq "");
@@ -21,10 +21,7 @@ if (!defined $ARGV[0] || $ARGV[0] eq "") {
   my $mconf = $conf{miners}{$currmconf}{savepath};
   &editConfig($mconf);
 }
-#$ARGV[0] eq "wee" if (!defined $ARGV[0]);
-# if ($ARGV[0] eq "switch") { 
   my $swopt = $ARGV[0]; 
-#  if (!defined $swopt) {
 if (defined $ARGV[0] && $ARGV[0] eq "help" ) {
   print "\nActive Profile: " . $conf{miners}{$currentm}{mconfig} . "\n\n"; 
   print "Available Profles: \n";
@@ -37,7 +34,7 @@ if (defined $ARGV[0] && $ARGV[0] eq "help" ) {
         my $mconf = $conf{miners}{$mid}{savepath};
         print "$mid - $mname -\t $mconf\n";
     #    my $shortconf = $conf [^/opt/ifmi]([^/]+)
-        #print "$mconf\n"
+        #print "$shortmconf\n"
      }
     print "========================================================\n";
     print "Usage: 'edit X' where X is a profile number.\n If no number is specified it will edit the currently active profile.\n";
@@ -52,4 +49,3 @@ sub editConfig {
  my $mconf1 = $_[0];
  system ("/usr/bin/nano", $mconf1);
 }
-#alias editpm='nano /opt/ifmi/poolmanager.conf'

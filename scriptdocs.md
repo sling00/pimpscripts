@@ -4,6 +4,8 @@ Commands:
 mine  - This is the "Base control" for mining operations in pimp
 usage: syntax " mine <option> " where option is "start / stop / restart / cleargraphs "
 
+Example: [22:05][root@pimp:~]#  mine restart
+
 sc - This will connect you to the screen session of your active miner.
 usage: sc
 
@@ -22,7 +24,7 @@ Examples:
 =============================
 Example output of "edit help"
 
-[22:10][root@jupiter:~]# edit help
+[22:10][root@pimp:~]# edit help
 
 Active Profile: X11
 

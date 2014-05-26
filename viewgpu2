@@ -1,0 +1,30 @@
+#!/usr/bin/perl 
+use warnings;
+use strict;
+require '/opt/ifmi/pm-common.pl';
+ my $conf = &getConfig;
+ my %conf = %{$conf};
+my $conffile = "/opt/ifmi/poolmanager.conf";
+ my $currentm = $conf{settings}{current_mconf};
+my $msg; 
+my @gpus = &getFreshGPUData;
+if (@gpus) {
+	$msg .= "Profile: $conf{miners}{$currentm}{mconfig} ";
+$msg .= "GPU Temps: ";
+	for (my $k = 0;$k < @gpus;$k++)
+	{
+	 	$msg .= sprintf("%2.0f", $gpus[$k]{'current_temp_0_c'}) . "/"; 		 
+	}
+	chop $msg; 
+	$msg .= " Status: [";
+	for (my $k = 0;$k < @gpus;$k++)
+	{
+	if (${$gpus[$k]}{status} eq "Alive") { $msg .= "A"}
+	if (${$gpus[$k]}{status} eq "Dead") { $msg .= "D"}
+	if (${$gpus[$k]}{status} eq "Sick") { $msg .= "S"}
+	
+	#	$msg .= ${@gpus[$k]}{status} . " ";	
+	}
+$msg .= "]\n";
+} else { $msg .= "GPU Status: Miner not running" }
+print $msg;

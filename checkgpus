@@ -1,0 +1,56 @@
+#!/bin/bash
+#Script to compare gpu list output across boot and determine if cards are missing.
+#V1.0
+#By sling00
+PIMP_ATICONFIG=/usr/bin/aticonfig
+echo "=================== Detected GPU(s) ==================="
+
+$PIMP_ATICONFIG --lsa
+CARDNUM=`$PIMP_ATICONFIG --lsa | grep -c Radeon`
+if [ -f /root/.gpucount  ];
+	then
+	PREVCOUNT=`cat /root/.gpucount`
+else
+	PREVCOUNT="0"
+	echo "0" > /root/.gpucount
+fi
+
+if [ $CARDNUM -lt $PREVCOUNT ];
+	then
+	echo "======================================================="
+	echo  "WARNING: Detected GPU count is LESS than what was detected on previous boot!"
+	echo  "Resetting gpu count and setting /opt/ifmi/gpucountbad"
+	echo $CARDNUM > /root/.gpucount
+	touch /opt/ifmi/gpucountbad
+	chown www-data.root /opt/ifmi/gpucountbad
+	chmod 0666 /opt/ifmi/gpucountbad
+	echo 1 > /opt/ifmi/gpucountbad
+elif [ $CARDNUM -eq $PREVCOUNT ];
+then
+	echo "======================================================="
+	echo "New GPU Count is the same as it was before: $CARDNUM"
+elif [ $CARDNUM -gt $PREVCOUNT ];
+then
+	GPUDIFF=`echo $CARDNUM - $PREVCOUNT | bc`
+	echo "======================================================="
+	echo "$CARDNUM Total GPUs Detected..."
+	echo "$GPUDIFF New GPU(s) Detected...Resetting GPU Count"
+	echo $CARDNUM > /root/.gpucount
+fi
+	echo "======================================================="
+
+#CompareGPUS Starts
+aticonfig --lsa | grep Radeon > /opt/pimp/currentgpuoutput
+#If firstboot / no lastgpuout found
+if [ ! -f /opt/pimp/lastgpuoutput ]; then
+   cat /opt/pimp/currentgpuoutput > /opt/pimp/lastgpuoutput
+fi
+#If gpucount bad
+if [ -f /opt/ifmi/gpucountbad ]; then
+diff --changed-group-format="%<" --unchanged-group-format="" /opt/pimp/lastgpuoutput /opt/pimp/currentgpuoutput >> /opt/pimp/gpudiff
+fi
+#If gpucount good.
+if [ ! -f /opt/ifmi/gpucountbad ]; then
+cat /opt/pimp/currentgpuoutput > /opt/pimp/lastgpuoutput
+fi
+

@@ -1,0 +1,59 @@
+#!/usr/bin/perl 
+use warnings;
+use strict;
+use File::Copy; 
+use YAML qw( DumpFile ); 
+require '/opt/ifmi/pm-common.pl';
+
+my $conf = &getConfig;
+my %conf = %{$conf};
+my $conffile = "/opt/ifmi/poolmanager.conf";
+my $currentm = $conf{settings}{current_mconf};
+my $mconf = $conf{miners}{$currentm}{savepath};
+my $minerpath = $conf{miners}{$currentm}{mpath};
+	print "Preparing to test mining..." ;
+	print "\nCurrent miner exec: ". $minerpath . "";
+	print "\nCurrent Miner conf file: " . $mconf . "";  
+    print "\nCurrent Profile: " . $conf{miners}{$currentm}{mconfig} . "\n\n"; 
+
+my $lintcheck = system("/usr/bin/jsonlint", $mconf);
+	if ($lintcheck > 0) {
+		print "Your conf file has an error in it.\n";
+		print "This is usually either a missing or extra comma\n";
+		`/usr/bin/jsonlint -v $mconf`;
+		print "\nFix your config and try again!";
+		exit;
+	} else { 
+		print "Config passed jsonlint validation, continuing...\n";
+}
+
+my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
+        if ($mcheck > 0) {
+          print "Miner already running\n";
+	  print "Attaching to screen of running miner in 2 seconds\n";
+	  sleep 2;
+	  `screen -dr PM-miner`;
+	  exit;
+        }
+	print "Attempting to start miner ~10 seconds\n";
+	&startCGMiner;
+	sleep 10;
+	&resetPoolSuperPri; 
+
+my $mcheckagain = `ps -eo command | grep -Ec ^$minerpath`;
+	if ($mcheckagain > 0) {
+          print "Miner appears to have started\n";
+          print "Attaching to screen of miner in 3 seconds\n";
+          sleep 3;
+          `/usr/bin/screen -dr PM-miner`;
+          exit;
+	} else {
+		print "Miner failed to start. Helpful information below\n";
+		print "ATICONFIG --lsa (List all adapters) below:\n"; 
+		`aticonfig --lsa`;
+		print "ATICONFIG --odgt --adapter=all (ADL CHECK) info below:\n";
+		`aticonfig --odgt --adapter=all`;
+	}
+
+
+

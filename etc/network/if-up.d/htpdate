@@ -1,0 +1,4 @@
+#!/bin/bash
+SERVERS="www.linux.org www.freebsd.org"
+/usr/bin/htpdate -t -s -i $SERVERS
+

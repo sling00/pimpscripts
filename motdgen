@@ -1,0 +1,49 @@
+#!/bin/bash
+#PiMP MOTD Generator
+#V1.0 by sling00
+PIMP_VERSION=`sed -n '2,2p' /etc/version`
+OUT=">> /var/run/motd"
+
+echo "       .__"
+echo "______ |__| _____ ______"
+echo "\____ \|  |/     \\____ \   Portable Instant Mining Platform"
+echo "|  |_> >  |  Y Y  \  |_> >  Pimp Version $PIMP_VERSION"
+echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC"
+echo "|__|            \/|__|           http://getPiMP.org"
+echo "Type pimp for a list of pimp console shortcuts and commands"
+echo "Miner status: Current profile: "
+echo "Temps: "
+echo "Card status: "
+echo "Current pool: "
+echo "Current Hashrates (Overall): "
+echo "Current Hashrates (Per card):"
+echo "System Uptime: " 
+echo "Miner Uptime: "
+#pimp    = Show this listing.
+#test    = Restart mining and show the miner console
+#edit    = Edit your /opt/ifmi/cgminer.conf
+#sc      = show the miner console (Control-A, release, D to detach from it)
+#ms      = mine stop
+#rb      = reboot
+#back    = backup your poolmanager.conf and cgminer.conf
+#helpme  = Pastebin diagostic information for a PiMP rescue!
+#mine start/stop/restart = control your default miner
+#sd      = shutdown the rig
+#switchprompt = switch between pimp bash prompt and normal bash prompt
+#-----------------------------------------------------------------------
+
+
+ if [ -f /opt/ifmi/gpucountbad ]; then
+        echo "=======================================================================" #>> /var/run/motd
+        echo "WARNING: Detected GPU count is LESS than previous boot"# >> /var/run/motd
+        echo "This message will not go away until you run:"# >> /var/run/motd
+        echo "resetgpu"# >> /var/run/motd
+        echo "=======================================================================" #>> /var/run/motd
+fi
+if [ -f /opt/pimp/gpudiff ]; then
+        echo "The following GPU's are missing" #>> /var/run/motd
+        cat /opt/pimp/gpudiff | while read line; do
+        echo $line #>> /var/run/motd
+        done
+        echo "=======================================================================" #>> /var/run/motd
+fi

@@ -1,0 +1,13 @@
+#!/bin/bash
+#CompareGPUS
+aticonfig --lsa | grep Radeon > /opt/pimp/currentgpuoutput
+if [ ! -f /opt/pimp/lastgpuoutput ]; then
+   cat /opt/pimp/currentgpuoutput > /opt/pimp/lastgpuoutput
+fi 
+if [ -f /opt/ifmi/gpucountbad ]; then
+diff --changed-group-format="%<" --unchanged-group-format="" /opt/pimp/lastgpuoutput /opt/pimp/currentgpuoutput >> /opt/pimp/gpudiff
+head -n -1 /opt/pimp/gpudiff > /tmp/gpudiff ; mv /tmp/gpudiff /opt/pimp/gpudiff
+fi
+if [ ! -f /opt/ifmi/gpucountbad]; then
+cat /opt/pimp/currentgpuoutput > /opt/pimp/lastgpuoutput
+fi

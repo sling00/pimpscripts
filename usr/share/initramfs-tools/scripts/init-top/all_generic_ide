@@ -1,0 +1,36 @@
+#!/bin/sh
+
+PREREQ=""
+prereqs()
+{
+	echo "$PREREQ"
+}
+case $1 in
+# get pre-requisites
+prereqs)
+	prereqs
+	exit 0
+	;;
+esac
+echo "======================EARLY GPU DETECTION========================="
+lspci -v -i /pci.ids | grep VGA | /bin/cut -d " " -f 1,9- | /bin/cut -d "(" -f 1
+#lspci -v -i /pci.ids | grep VGA
+#lspci -v -i /pci.ids | grep 0300
+#lspci -v | grep 0300
+GCOUNT=`lspci -i /pci.ids -v | grep -c VGA`
+echo "TOTAL GPUS DETECTED: $GCOUNT"
+echo "Boot will continue after a brief pause."
+echo "=================================================================="
+sleep 1
+for x in $(cat /proc/cmdline); do
+	case ${x} in
+	all_generic_ide)
+		modprobe ata_generic all_generic_ide=1
+		;;
+	all_generic_ide=*)
+		if [ ${x#all_generic_ide=} ]; then
+			modprobe ata_generic all_generic_ide=1
+		fi
+		;;
+	esac
+done

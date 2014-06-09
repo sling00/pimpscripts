@@ -28,3 +28,5 @@ $msg .= "GPU Temps: ";
 $msg .= "]\n";
 } else { $msg .= "GPU Status: Miner not running" }
 print $msg;
+
+open FILE, ">/tmp/gpustats" or die $!; print FILE $msg; close FILE;

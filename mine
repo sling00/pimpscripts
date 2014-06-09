@@ -71,11 +71,11 @@ if ($ARGV[0] eq "start") {
 		die "another mining process is running."
 	}
 	&startCGMiner();
-	print "Starting mining....";
+	print "Starting mining....\n";
 	&blog("starting miner") if (defined(${$conf}{settings}{verbose}));
   	sleep 10;
  	&resetPoolSuperPri;
-  	print "Mining started, check that it is functional with sc";
+  	print "Mining started, check that it is functional with sc\n";
  }
 
 if ($ARGV[0] eq "stop") { 
@@ -94,7 +94,7 @@ if ($ARGV[0] eq "restart") {
         if ($mcheck > 0) {
           die "Miner still running, reboot the machine or attempt to kill the miner."
         }
-        print "Starting mining...";
+        print "Starting mining...\n";
         &startCGMiner();
         &blog("starting miner") if (defined(${$conf}{settings}{verbose}));
   sleep 10;

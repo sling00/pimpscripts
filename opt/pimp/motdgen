@@ -4,11 +4,14 @@
 PIMP_VERSION=`sed -n '2,2p' /etc/version | cut -d "-" -f 1`
 GETGFX_VENDOR=`sed -n '2,2p' /etc/version | cut -d "-" -f 2`
 DRIVER_VERSION=`sed -n '2,2p' /etc/version | cut -d "-" -f 3`
-
-if [ $GETGFX_VENDOR eq "amd" ]; then
+CPUNAME=`cat /proc/cpuinfo | grep '^model name' | cut -d":" -f2 | head -1 | xargs`
+CPUCORES=`cat /proc/cpuinfo | grep '^model name' | wc -l`
+CPUMHZ=`cat /proc/cpuinfo | grep '^cpu MH' | cut -d":" -f2 | cut -d"." -f1| head -1| xargs`
+MEMSIZE=`cat /proc/meminfo | grep 'MemTotal' | cut -d":" -f2 | xargs | cut -d" " -f1 | awk '{ rounded = sprintf("%1.0f", $1/1024/1024); print rounded }'`
+if [ $GETGFX_VENDOR = "amd" ]; then
         GFX_VENDOR="ATI Catalyst: $DRIVER_VERSION"
     else 
-        GFX_VENDOR="Nvidia V: $DRIVER_VERSION"
+        GFX_VENDOR="Nvidia Forceware: $DRIVER_VERSION"
 fi
 
 OUT=">> /var/run/motd"
@@ -18,18 +21,19 @@ function showtemps() {
 echo "       .__"
 echo "______ |__| _____ ______  Portable Instant Mining Platform"
 echo "\____ \|  |/     \\____ \   Pimp Version $PIMP_VERSION"
-echo "|  |_> >  |  Y Y  \  |_> >    $GFX_VENDOR"
+echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR"
 echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC"
 echo "|__|            \/|__|           http://getPiMP.org"
 echo "Type pimp for a list of pimp console shortcuts and commands"
+echo "CPU: $CPUNAME"
+echo "Cores: $CPUCORES @ $CPUMHZ Memory: $MEMSIZE"
 echo "Miner status: Current profile: "
 echo "Temps: "
 echo "Card status: "
 echo "Current pool: "
 echo "Current Hashrates (Overall): "
 echo "Current Hashrates (Per card):"
-echo "System Uptime: " 
-echo "Miner Uptime: "
+echo "System Uptime: Miner Uptime: " 
 #pimp    = Show this listing.
 #test    = Restart mining and show the miner console
 #edit    = Edit your /opt/ifmi/cgminer.conf

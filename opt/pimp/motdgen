@@ -13,7 +13,7 @@ fi
 
 OUT=">> /var/run/motd"
 function showtemps() {
-        if 
+ echo "Blah"
 }
 echo "       .__"
 echo "______ |__| _____ ______  Portable Instant Mining Platform"

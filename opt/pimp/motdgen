@@ -1,13 +1,24 @@
 #!/bin/bash
 #PiMP MOTD Generator
 #V1.0 by sling00
-PIMP_VERSION=`sed -n '2,2p' /etc/version`
-OUT=">> /var/run/motd"
+PIMP_VERSION=`sed -n '2,2p' /etc/version | cut -d "-" -f 1`
+GETGFX_VENDOR=`sed -n '2,2p' /etc/version | cut -d "-" -f 2`
+DRIVER_VERSION=`sed -n '2,2p' /etc/version | cut -d "-" -f 3`
 
+if [ $GETGFX_VENDOR eq "amd" ]; then
+        GFX_VENDOR="ATI Catalyst: $DRIVER_VERSION"
+    else 
+        GFX_VENDOR="Nvidia V: $DRIVER_VERSION"
+fi
+
+OUT=">> /var/run/motd"
+function showtemps() {
+        if 
+}
 echo "       .__"
-echo "______ |__| _____ ______"
-echo "\____ \|  |/     \\____ \   Portable Instant Mining Platform"
-echo "|  |_> >  |  Y Y  \  |_> >  Pimp Version $PIMP_VERSION"
+echo "______ |__| _____ ______  Portable Instant Mining Platform"
+echo "\____ \|  |/     \\____ \   Pimp Version $PIMP_VERSION"
+echo "|  |_> >  |  Y Y  \  |_> >    $GFX_VENDOR"
 echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC"
 echo "|__|            \/|__|           http://getPiMP.org"
 echo "Type pimp for a list of pimp console shortcuts and commands"

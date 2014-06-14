@@ -15,6 +15,7 @@ if [ $GETGFX_VENDOR = "amd" ]; then
 fi
 
 OUT=">> /tmp/motd.tail"
+touch /tmp/motd.tail
 echo "       .__" $OUT
 echo "______ |__| _____ ______  Portable Instant Mining Platform" $OUT
 echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION" $OUT

@@ -20,20 +20,21 @@ function showtemps() {
 }
 echo "       .__"
 echo "______ |__| _____ ______  Portable Instant Mining Platform"
-echo "\____ \|  |/     \\____ \   Pimp Version $PIMP_VERSION"
+echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION"
 echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR"
 echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC"
 echo "|__|            \/|__|           http://getPiMP.org"
 echo "Type pimp for a list of pimp console shortcuts and commands"
 echo "CPU: $CPUNAME"
-echo "Cores: $CPUCORES @ $CPUMHZ Memory: $MEMSIZE"
-echo "Miner status: Current profile: "
-echo "Temps: "
-echo "Card status: "
-echo "Current pool: "
-echo "Current Hashrates (Overall): "
-echo "Current Hashrates (Per card):"
-echo "System Uptime: Miner Uptime: " 
+echo "Cores: $CPUCORES @ $CPUMHZ Mhz Memory: $MEMSIZE GB"
+echo $(cat /tmp/minerstats)
+#echo "Miner status: Current profile: "
+#echo "Temps: "
+#echo "Card status: "
+#echo "Current pool: "
+#echo "Current Hashrates (Overall): "
+#echo "Current Hashrates (Per card):"
+#echo "System Uptime: Miner Uptime: " 
 #pimp    = Show this listing.
 #test    = Restart mining and show the miner console
 #edit    = Edit your /opt/ifmi/cgminer.conf

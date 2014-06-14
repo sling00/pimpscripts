@@ -14,30 +14,28 @@ if [ $GETGFX_VENDOR = "amd" ]; then
         GFX_VENDOR="Nvidia Forceware: $DRIVER_VERSION"
 fi
 
-OUT=>> /tmp/motd.tail
-touch /tmp/motd.tail
-echo "       .__" $OUT
-echo "______ |__| _____ ______  Portable Instant Mining Platform" $OUT
-echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION" $OUT
-echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR" $OUT
-echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC" $OUT
-echo "|__|            \/|__|           http://getPiMP.org" $OUT
-echo "Type pimp for a list of pimp console shortcuts and commands" $OUT
-echo "CPU: $CPUNAME" $OUT
-echo "Cores: $CPUCORES @ $CPUMHZ Mhz Memory: $MEMSIZE GB" $OUT
-cat /tmp/minerstats $OUT
+echo "       .__" >> /tmp/motd.tail
+echo "______ |__| _____ ______  Portable Instant Mining Platform" >> /tmp/motd.tail
+echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION" >> /tmp/motd.tail
+echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR" >> /tmp/motd.tail
+echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC" >> /tmp/motd.tail
+echo "|__|            \/|__|           http://getPiMP.org" >> /tmp/motd.tail
+echo "Type pimp for a list of pimp console shortcuts and commands" >> /tmp/motd.tail
+echo "CPU: $CPUNAME" >> /tmp/motd.tail
+echo "Cores: $CPUCORES @ $CPUMHZ Mhz Memory: $MEMSIZE GB" >> /tmp/motd.tail
+cat /tmp/minerstats >> /tmp/motd.tail
 
  if [ -f /opt/ifmi/gpucountbad ]; then
-        echo "=======================================================================" $OUT
-        echo "WARNING: Detected GPU count is LESS than previous boot" $OUT
-        echo "This message will not go away until you run:" $OUT
-        echo "resetgpu" $OUT
-        echo "=======================================================================" $OUT
+        echo "=======================================================================" >> /tmp/motd.tail
+        echo "WARNING: Detected GPU count is LESS than previous boot" >> /tmp/motd.tail
+        echo "This message will not go away until you run:" >> /tmp/motd.tail
+        echo "resetgpu" >> /tmp/motd.tail
+        echo "=======================================================================" >> /tmp/motd.tail
 fi
 if [ -f /opt/pimp/gpudiff ]; then
-        echo "The following GPU's are missing" $OUT
+        echo "The following GPU's are missing" >> /tmp/motd.tail
         cat /opt/pimp/gpudiff | while read line; do
-        echo $line $OUT
+        echo $line >> /tmp/motd.tail
         done
-        echo "=======================================================================" $OUT
+        echo "=======================================================================" >> /tmp/motd.tail
 fi

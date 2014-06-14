@@ -13,7 +13,8 @@ if [ $GETGFX_VENDOR = "amd" ]; then
     else 
         GFX_VENDOR="Nvidia Forceware: $DRIVER_VERSION"
 fi
-
+rm -rf /tmp/motd.tail
+touch /tmp/motd.tail
 echo "       .__" >> /tmp/motd.tail
 echo "______ |__| _____ ______  Portable Instant Mining Platform" >> /tmp/motd.tail
 echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION" >> /tmp/motd.tail

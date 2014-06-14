@@ -1,0 +1,19 @@
+       .__                
+______ |__| _____ ______    
+\____ \|  |/     \\____ \   Portable Instant Mining Platform
+|  |_> >  |  Y Y  \  |_> >           
+|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC
+|__|            \/|__|        
+Here is a list of commonly used commands:
+test    = Restart mining and show the miner console
+edit    = Edit your /opt/ifmi/cgminer.conf
+sc      = show the miner console (Control-A, release, D to detach from it)
+ms      = mine stop
+rb      = reboot
+back    = backup your poolmanager.conf and cgminer.conf
+helpme  = Pastebin diagostic information for a PiMP rescue!
+mine start/stop/restart = control your default miner 
+sd      = shutdown the rig
+pimpupdate   = Get the latest updates to pimp. 
+switchprompt = switch between pimp bash prompt and normal bash prompt
+-----------------------------------------------------------------------

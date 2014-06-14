@@ -14,52 +14,29 @@ if [ $GETGFX_VENDOR = "amd" ]; then
         GFX_VENDOR="Nvidia Forceware: $DRIVER_VERSION"
 fi
 
-OUT=">> /var/run/motd"
-function showtemps() {
- echo "Blah"
-}
-echo "       .__"
-echo "______ |__| _____ ______  Portable Instant Mining Platform"
-echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION"
-echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR"
-echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC"
-echo "|__|            \/|__|           http://getPiMP.org"
-echo "Type pimp for a list of pimp console shortcuts and commands"
-echo "CPU: $CPUNAME"
-echo "Cores: $CPUCORES @ $CPUMHZ Mhz Memory: $MEMSIZE GB"
-echo $(cat /tmp/minerstats)
-#echo "Miner status: Current profile: "
-#echo "Temps: "
-#echo "Card status: "
-#echo "Current pool: "
-#echo "Current Hashrates (Overall): "
-#echo "Current Hashrates (Per card):"
-#echo "System Uptime: Miner Uptime: " 
-#pimp    = Show this listing.
-#test    = Restart mining and show the miner console
-#edit    = Edit your /opt/ifmi/cgminer.conf
-#sc      = show the miner console (Control-A, release, D to detach from it)
-#ms      = mine stop
-#rb      = reboot
-#back    = backup your poolmanager.conf and cgminer.conf
-#helpme  = Pastebin diagostic information for a PiMP rescue!
-#mine start/stop/restart = control your default miner
-#sd      = shutdown the rig
-#switchprompt = switch between pimp bash prompt and normal bash prompt
-#-----------------------------------------------------------------------
-
+OUT=">> /tmp/motd.tail"
+echo "       .__" $OUT
+echo "______ |__| _____ ______  Portable Instant Mining Platform" $OUT
+echo "\____ \|  |/     \\____ \     Pimp Version $PIMP_VERSION" $OUT
+echo "|  |_> >  |  Y Y  \  |_> >  $GFX_VENDOR" $OUT
+echo "|   __/|__|__|_|  /   __/   Support: #PiMP on FreenodeIRC" $OUT
+echo "|__|            \/|__|           http://getPiMP.org" $OUT
+echo "Type pimp for a list of pimp console shortcuts and commands" $OUT
+echo "CPU: $CPUNAME" $OUT
+echo "Cores: $CPUCORES @ $CPUMHZ Mhz Memory: $MEMSIZE GB" $OUT
+cat /tmp/minerstats $OUT
 
  if [ -f /opt/ifmi/gpucountbad ]; then
-        echo "=======================================================================" #>> /var/run/motd
-        echo "WARNING: Detected GPU count is LESS than previous boot"# >> /var/run/motd
-        echo "This message will not go away until you run:"# >> /var/run/motd
-        echo "resetgpu"# >> /var/run/motd
-        echo "=======================================================================" #>> /var/run/motd
+        echo "=======================================================================" $OUT
+        echo "WARNING: Detected GPU count is LESS than previous boot" $OUT
+        echo "This message will not go away until you run:" $OUT
+        echo "resetgpu" $OUT
+        echo "=======================================================================" $OUT
 fi
 if [ -f /opt/pimp/gpudiff ]; then
-        echo "The following GPU's are missing" #>> /var/run/motd
+        echo "The following GPU's are missing" $OUT
         cat /opt/pimp/gpudiff | while read line; do
-        echo $line #>> /var/run/motd
+        echo $line $OUT
         done
-        echo "=======================================================================" #>> /var/run/motd
+        echo "=======================================================================" $OUT
 fi

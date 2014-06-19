@@ -1,4 +1,12 @@
 #!/usr/bin/perl
+### BEGIN INIT INFO
+# Provides: mine
+# Required-Start: $local_fs $network $named $time $syslog
+# Required-Stop: $local_fs $network $named $time $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description: <DESCRIPTION>
+### END INIT INFO
 #    This file is part of IFMI PoolManager.
 #
 #    PoolManager is distributed in the hope that it will be useful,
@@ -79,27 +87,27 @@ if ($ARGV[0] eq "start") {
  }
 
 if ($ARGV[0] eq "stop") { 
-	print "Stopping mining....";
+	print "Stopping mining....\n";
   	&stopCGMiner();
-  	print "Mining stopped";
+  	print "Mining stopped\n";
   	&blog("stopping miner") if (defined(${$conf}{settings}{verbose}));
  }
 
 if ($ARGV[0] eq "restart") { 
-  print "Stopping mining...";
+  print "Stopping mining...\n";
   &stopCGMiner();
-  &blog("stopping miner") if (defined(${$conf}{settings}{verbose}));
+  &blog("stopping miner\n") if (defined(${$conf}{settings}{verbose}));
   sleep 10;
    my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
         if ($mcheck > 0) {
-          die "Miner still running, reboot the machine or attempt to kill the miner."
+          die "\nMiner still running, reboot the machine or attempt to kill the miner.\n"
         }
         print "Starting mining...\n";
         &startCGMiner();
         &blog("starting miner") if (defined(${$conf}{settings}{verbose}));
   sleep 10;
   &resetPoolSuperPri; 
-  		print "Mining started successfully, check with sc";
+  		print "Mining started successfully, check with sc\n";
 }
 
 if ($ARGV[0] eq "boot") {
@@ -110,7 +118,7 @@ if ($ARGV[0] eq "boot") {
 		$bootcmd = "/sbin/reboot"
 	}
 	`$bootcmd`;
-	&blog("booting miner with $bootcmd") if (defined(${$conf}{settings}{verbose}));
+	&blog("rebooting miner with $bootcmd") if (defined(${$conf}{settings}{verbose}));
 }
 
 if ($ARGV[0] eq "cleargraphs") {
